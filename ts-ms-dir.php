@@ -35,7 +35,9 @@ class TS_Multisite_Directory {
 	}
 
 	public function init() {
-		$this->ts_multisite_info();
+		//$this->ts_multisite_info();
+		add_action( 'init', array( $this, 'ts_multisite_info' ) );
+		add_action( 'init', array( $this, 'ts_multisite_directory' ) );
 		add_action( 'init', array( $this, 'load_styles' ) );
 		add_action( 'init', array( $this, 'ts_multisite_directory_i18n' ) );
 		add_action( 'insert_blog', 'delete_sites_info_transient' );
