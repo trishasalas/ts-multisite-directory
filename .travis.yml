@@ -19,4 +19,4 @@ php:
 
 # optionally specify a list of environments, for example to test different RDBMS
 env:
-  - DB=mysql
+  - PHP=mysql
