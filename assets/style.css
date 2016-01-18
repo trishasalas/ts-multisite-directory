@@ -1,0 +1,8 @@
+#multisite-directory a {
+  text-decoration: none;
+  box-shadow: none; }
+#multisite-directory .posts-rss,
+#multisite-directory .comments-rss {
+  display: inline-block; }
+#multisite-directory .posts-rss {
+  padding-right: 2em; }
