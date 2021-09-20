@@ -63,19 +63,21 @@ class TS_Multisite_Directory {
 
 		foreach ( $this->sites as $this->site ) {
 			switch_to_blog( $this->site->blog_id );
+			if( '1' === get_option('blog_public') ) {
 
-			$this->url = isset( $this->site->domain, $this->site->path )
-				? $this->site->domain . $this->site->path
-				: site_url();
+                $this->url = isset($this->site->domain, $this->site->path)
+                    ? $this->site->domain . $this->site->path
+                    : site_url();
 
-			$this->sites_info[ $this->site->blog_id ] = array(
-				'url'          => $this->url,
-				'name'         => get_bloginfo( 'name' ),
-				'desc'         => get_bloginfo( 'description' ),
-				'rss'          => get_bloginfo( 'rss2_url' ),
-				'comments_rss' => get_bloginfo( 'comments_rss2_url' ),
-			);
-			set_transient( 'ts_multisite_info', $this->sites_info, WEEK_IN_SECONDS );
+                $this->sites_info[$this->site->blog_id] = array(
+                    'url' => $this->url,
+                    'name' => get_bloginfo('name'),
+                    'desc' => get_bloginfo('description'),
+                    'rss' => get_bloginfo('rss2_url'),
+                    'comments_rss' => get_bloginfo('comments_rss2_url'),
+                );
+                set_transient('ts_multisite_info', $this->sites_info, WEEK_IN_SECONDS);
+            }
 
 			// Restore current blog each time
 			restore_current_blog();
