@@ -57,16 +57,18 @@ class TS_Multisite_Directory {
 		$this->sites_info = get_transient( 'ts_multisite_info' );
 
 		$this->sites_info = array();
-		$this->sites      = wp_get_sites( array( 'network_id' => $wpdb->siteid ) );
+		$this->sites      = get_sites( array( 'network_id' => $wpdb->siteid ) );
+//		var_dump($this->sites);
+
 
 		foreach ( $this->sites as $this->site ) {
-			switch_to_blog( $this->site['blog_id'] );
+			switch_to_blog( $this->site->blog_id );
 
-			$this->url = isset( $this->site['domain'], $this->site['path'] )
-				? $this->site['domain'] . $this->site['path']
+			$this->url = isset( $this->site->domain, $this->site->path )
+				? $this->site->domain . $this->site->path
 				: site_url();
 
-			$this->sites_info[ $this->site['blog_id'] ] = array(
+			$this->sites_info[ $this->site->blog_id ] = array(
 				'url'          => $this->url,
 				'name'         => get_bloginfo( 'name' ),
 				'desc'         => get_bloginfo( 'description' ),
@@ -82,12 +84,9 @@ class TS_Multisite_Directory {
 	}
 
 	public function ts_multisite_directory() {
-		$output = '';
-		$output .= '<div id="multisite-directory">';
+        $output = '<div id="multisite-directory">';
 		foreach ( $this->sites_info as $this->site_info ) {
 			$output .= '<h3><a href="' . esc_url( $this->site_info['url'] ) . '">' . esc_html( $this->site_info['name'] ) . '</a></h3>';
-			$output .= '<div class="posts-rss"><a href="' . esc_url( $this->site_info['rss'] ) . '">' . __( 'RSS for Posts', 'multisite-directory' ) . '</a></div>';
-			$output .= '<div class="comments-rss"><a href="' . esc_url( $this->site_info['comments_rss'] ) . '">' . __( 'RSS for Comments', 'multisite-directory' ) . '</a></div></ul>';
 		}
 		$output .= '</div>';
 		return $output;
